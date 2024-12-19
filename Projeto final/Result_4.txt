@@ -1,0 +1,201 @@
+*** Final results per agent ***
+
+[ Agent RESC_1 ]
+
+*** Consumed time ***
+133.88 of 1000.00
+     No found victims
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     0,0,0,0,0.0
+
+     saved victims: (ID, Sev label, Sev value)
+     (226, 2, 39.0)      (235, 3, 59.4)      (248, 1, 13.2)      (253, 1, 13.5)      (263, 4, 87.0)      (264, 2, 32.7)      (269, 1, 13.4)      (276, 2, 33.5)      (277, 2, 38.2)      (281, 1, 13.5)      (283, 2, 39.0)      (284, 2, 30.5)      (288, 1, 20.9)      (289, 2, 25.4)
+
+     Critical victims saved     (Vs1) =   5 out of 78 (6.4)%
+     Instable victims saved     (Vs2) =   7 out of 159 (4.4)%
+     Pot. inst. victims saved   (Vs3) =   1 out of 38 (2.6)%
+     Stable victims saved       (Vs4) =   1 out of 25 (4.0)%
+     --------------------------------------
+     Total of saved victims     (Vs)  =  14 (4.67%)
+     Weighted saved victims per severity (Vsg) = 0.05
+
+     Sum of gravities of all saved victims = 459.14 of a total of 11252.89
+       % of gravities of all saved victims = 0.04
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     5,7,1,1,0.05162523900573614
+
+[ Agent EXPL_1 ]
+
+*** Consumed time ***
+2805.25 of 5000.00
+
+     found victims: (ID, Sev label, Sev value)
+     (148, 1, 13.5)      (149, 1, 14.0)      (153, 2, 40.7)      (158, 2, 36.6)      (159, 4, 87.0)      (165, 2, 34.4)      (174, 2, 31.1)      (178, 2, 39.2)      (181, 2, 26.1)      (183, 2, 39.0)      (184, 1, 13.3)      (186, 2, 37.9)      (188, 1, 13.2)      (189, 1, 13.7)      (191, 1, 13.4)      (192, 2, 30.6)      (193, 2, 37.0)      (194, 2, 38.3)      (195, 4, 87.0)      (197, 4, 78.9)      (198, 2, 48.9)      (200, 3, 57.1)      (201, 1, 13.2)      (202, 1, 18.1)      (203, 3, 60.0)      (213, 3, 64.0)      (218, 4, 76.0)      (240, 3, 67.3)      (257, 2, 40.0)
+
+     Critical victims found     (Ve1) =   8 out of 78 (10.3)%
+     Instable victims found     (Ve2) =  13 out of 159 (8.2)%
+     Pot. inst. victims found   (Ve3) =   4 out of 38 (10.5)%
+     Stable victims found       (Ve4) =   4 out of 25 (16.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =  29 (9.67%)
+     Weighted found victims per severity (Veg) = 0.09
+
+     Sum of gravities of all found victims = 1169.71 of a total of 11252.89
+       % of gravities of all found victims = 0.10
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     8,13,4,4,0.09464627151051626
+     No saved victims
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     0,0,0,0,0.0
+
+[ Agent EXPL_2 ]
+
+*** Consumed time ***
+2874.38 of 5000.00
+
+     found victims: (ID, Sev label, Sev value)
+     (178, 2, 39.2)      (181, 2, 26.1)      (183, 2, 39.0)      (184, 1, 13.3)      (186, 2, 37.9)      (188, 1, 13.2)      (190, 2, 37.0)      (191, 1, 13.4)      (192, 2, 30.6)      (197, 4, 78.9)      (198, 2, 48.9)      (207, 2, 40.0)      (218, 4, 76.0)      (225, 1, 24.2)      (235, 3, 59.4)      (236, 2, 47.0)      (240, 3, 67.3)      (241, 1, 23.0)      (247, 1, 13.2)      (248, 1, 13.2)      (257, 2, 40.0)      (258, 2, 37.5)      (260, 2, 36.8)      (262, 2, 47.6)
+
+     Critical victims found     (Ve1) =   7 out of 78 (9.0)%
+     Instable victims found     (Ve2) =  13 out of 159 (8.2)%
+     Pot. inst. victims found   (Ve3) =   2 out of 38 (5.3)%
+     Stable victims found       (Ve4) =   2 out of 25 (8.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =  24 (8.00%)
+     Weighted found victims per severity (Veg) = 0.08
+
+     Sum of gravities of all found victims = 902.98 of a total of 11252.89
+       % of gravities of all found victims = 0.08
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     7,13,2,2,0.08317399617590822
+     No saved victims
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     0,0,0,0,0.0
+
+[ Agent EXPL_3 ]
+
+*** Consumed time ***
+4987.58 of 5000.00
+
+     found victims: (ID, Sev label, Sev value)
+     (83, 4, 87.0)      (88, 3, 69.8)      (91, 2, 39.6)      (104, 1, 13.3)      (105, 4, 87.0)      (110, 2, 39.7)      (111, 2, 31.7)      (120, 2, 40.0)      (121, 2, 28.9)      (126, 2, 34.6)      (130, 2, 40.0)      (131, 2, 39.5)      (135, 1, 22.5)      (136, 3, 61.5)      (137, 2, 40.0)      (140, 1, 13.6)      (141, 4, 87.0)      (144, 2, 30.6)      (147, 4, 86.8)      (150, 2, 32.0)      (151, 2, 32.3)      (154, 2, 38.9)      (155, 1, 13.9)      (159, 4, 87.0)      (165, 2, 34.4)      (167, 2, 42.0)      (168, 3, 71.9)      (178, 2, 39.2)      (199, 3, 50.3)      (200, 3, 57.1)      (202, 1, 18.1)      (203, 3, 60.0)      (214, 2, 27.5)
+
+     Critical victims found     (Ve1) =   5 out of 78 (6.4)%
+     Instable victims found     (Ve2) =  17 out of 159 (10.7)%
+     Pot. inst. victims found   (Ve3) =   6 out of 38 (15.8)%
+     Stable victims found       (Ve4) =   5 out of 25 (20.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =  33 (11.00%)
+     Weighted found victims per severity (Veg) = 0.09
+
+     Sum of gravities of all found victims = 1497.90 of a total of 11252.89
+       % of gravities of all found victims = 0.13
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     5,17,6,5,0.09369024856596558
+     No saved victims
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     0,0,0,0,0.0
+
+[ Agent EXPL_4 ]
+
+*** Consumed time ***
+3318.50 of 5000.00
+
+     found victims: (ID, Sev label, Sev value)
+     (167, 2, 42.0)      (168, 3, 71.9)      (178, 2, 39.2)      (181, 2, 26.1)      (183, 2, 39.0)      (184, 1, 13.3)      (191, 1, 13.4)      (192, 2, 30.6)      (197, 4, 78.9)      (200, 3, 57.1)      (202, 1, 18.1)      (203, 3, 60.0)      (213, 3, 64.0)      (214, 2, 27.5)      (226, 2, 39.0)      (234, 1, 23.9)      (235, 3, 59.4)      (236, 2, 47.0)      (237, 2, 34.1)      (240, 3, 67.3)      (253, 1, 13.5)      (257, 2, 40.0)      (263, 4, 87.0)      (264, 2, 32.7)      (269, 1, 13.4)      (276, 2, 33.5)      (277, 2, 38.2)      (281, 1, 13.5)      (283, 2, 39.0)      (284, 2, 30.5)      (288, 1, 20.9)      (289, 2, 25.4)
+
+     Critical victims found     (Ve1) =   8 out of 78 (10.3)%
+     Instable victims found     (Ve2) =  16 out of 159 (10.1)%
+     Pot. inst. victims found   (Ve3) =   6 out of 38 (15.8)%
+     Stable victims found       (Ve4) =   2 out of 25 (8.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =  32 (10.67%)
+     Weighted found victims per severity (Veg) = 0.11
+
+     Sum of gravities of all found victims = 1239.38 of a total of 11252.89
+       % of gravities of all found victims = 0.11
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     8,16,6,2,0.10516252390057361
+     No saved victims
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     0,0,0,0,0.0
+
+--------------
+
+
+*** ACUMULATED RESULTS - FOR ALL AGENTS ***
+
+ *** Numbers of Victims in the Environment ***
+   Critical victims    (V1) =  78
+   Instable victims    (V2) = 159
+   Pot. inst. victims  (V3) =  38
+   Stable victims      (V4) =  25
+   --------------------------------------
+   Total of victims    (V)  = 300
+   Sum of all gravities(SG) = 11252.89
+   --------------------------------------
+   CSV of nb. total of victims
+   V1,V2,V3,V4,SG
+   78,159,38,25,11252.885735999998
+
+ *** FOUND victims by all explorer agents ***
+
+     found victims: (ID, Sev label, Sev value)
+     (83, 4, 87.0)      (88, 3, 69.8)      (91, 2, 39.6)      (104, 1, 13.3)      (105, 4, 87.0)      (110, 2, 39.7)      (111, 2, 31.7)      (120, 2, 40.0)      (121, 2, 28.9)      (126, 2, 34.6)      (130, 2, 40.0)      (131, 2, 39.5)      (135, 1, 22.5)      (136, 3, 61.5)      (137, 2, 40.0)      (140, 1, 13.6)      (141, 4, 87.0)      (144, 2, 30.6)      (147, 4, 86.8)      (148, 1, 13.5)      (149, 1, 14.0)      (150, 2, 32.0)      (151, 2, 32.3)      (153, 2, 40.7)      (154, 2, 38.9)      (155, 1, 13.9)      (158, 2, 36.6)      (159, 4, 87.0)      (165, 2, 34.4)      (167, 2, 42.0)      (168, 3, 71.9)      (174, 2, 31.1)      (178, 2, 39.2)      (181, 2, 26.1)      (183, 2, 39.0)      (184, 1, 13.3)      (186, 2, 37.9)      (188, 1, 13.2)      (189, 1, 13.7)      (190, 2, 37.0)      (191, 1, 13.4)      (192, 2, 30.6)      (193, 2, 37.0)      (194, 2, 38.3)      (195, 4, 87.0)      (197, 4, 78.9)      (198, 2, 48.9)      (199, 3, 50.3)      (200, 3, 57.1)      (201, 1, 13.2)      (202, 1, 18.1)      (203, 3, 60.0)      (207, 2, 40.0)      (213, 3, 64.0)      (214, 2, 27.5)      (218, 4, 76.0)      (225, 1, 24.2)      (226, 2, 39.0)      (234, 1, 23.9)      (235, 3, 59.4)      (236, 2, 47.0)      (237, 2, 34.1)      (240, 3, 67.3)      (241, 1, 23.0)      (247, 1, 13.2)      (248, 1, 13.2)      (253, 1, 13.5)      (257, 2, 40.0)      (258, 2, 37.5)      (260, 2, 36.8)      (262, 2, 47.6)      (263, 4, 87.0)      (264, 2, 32.7)      (269, 1, 13.4)      (276, 2, 33.5)      (277, 2, 38.2)      (281, 1, 13.5)      (283, 2, 39.0)      (284, 2, 30.5)      (288, 1, 20.9)      (289, 2, 25.4)
+
+     Critical victims found     (Ve1) =  21 out of 78 (26.9)%
+     Instable victims found     (Ve2) =  42 out of 159 (26.4)%
+     Pot. inst. victims found   (Ve3) =   9 out of 38 (23.7)%
+     Stable victims found       (Ve4) =   9 out of 25 (36.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =  81 (27.00%)
+     Weighted found victims per severity (Veg) = 0.27
+
+     Sum of gravities of all found victims = 3195.23 of a total of 11252.89
+       % of gravities of all found victims = 0.28
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     21,42,9,9,0.26673040152963673
+
+ *** SAVED victims by all rescuer agents ***
+
+     saved victims: (ID, Sev label, Sev value)
+     (226, 2, 39.0)      (235, 3, 59.4)      (248, 1, 13.2)      (253, 1, 13.5)      (263, 4, 87.0)      (264, 2, 32.7)      (269, 1, 13.4)      (276, 2, 33.5)      (277, 2, 38.2)      (281, 1, 13.5)      (283, 2, 39.0)      (284, 2, 30.5)      (288, 1, 20.9)      (289, 2, 25.4)
+
+     Critical victims saved     (Vs1) =   5 out of 78 (6.4)%
+     Instable victims saved     (Vs2) =   7 out of 159 (4.4)%
+     Pot. inst. victims saved   (Vs3) =   1 out of 38 (2.6)%
+     Stable victims saved       (Vs4) =   1 out of 25 (4.0)%
+     --------------------------------------
+     Total of saved victims     (Vs)  =  14 (4.67%)
+     Weighted saved victims per severity (Vsg) = 0.05
+
+     Sum of gravities of all saved victims = 459.14 of a total of 11252.89
+       % of gravities of all saved victims = 0.04
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     5,7,1,1,0.05162523900573614
+
+ *** END OF STATS ***
