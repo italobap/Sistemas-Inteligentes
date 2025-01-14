@@ -38,32 +38,95 @@ class Rescuer(AbstAgent):
         self.rescuers = [self]  # List of all rescuers, including self
         self.set_state(VS.IDLE)
 
+        # Starts in IDLE state.
+        # It changes to ACTIVE when the map arrives
+        self.set_state(VS.IDLE)
+
+    def save_cluster_csv(self, cluster, cluster_id):
+        filename = f"./clusters/cluster{cluster_id}.txt"
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            for vic_id, values in cluster.items():
+                x, y = values[0]      # x,y coordinates
+                vs = values[1]        # list of vital signals
+                writer.writerow([vic_id, x, y, vs[6], vs[7]])
+
+    def save_sequence_csv(self, sequence, sequence_id):
+        filename = f"./clusters/seq{sequence_id}.txt"
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            for id, values in sequence.items():
+                x, y = values[0]      # x,y coordinates
+                vs = values[1]        # list of vital signals
+                writer.writerow([id, x, y, vs[6], vs[7]])
+
     def sync_explorers(self, explorer_map, victims):
-        """Synchronize with explorers and assign clusters to all rescuers."""
+        """ This method should be invoked only to the master agent
+
+        Each explorer sends the map containing the obstacles and
+        victims' location. The master rescuer updates its map with the
+        received one. It does the same for the victims' vital signals.
+        After, it should classify each severity of each victim (critical, ..., stable);
+        Following, using some clustering method, it should group the victims and
+        and pass one (or more)clusters to each rescuer """
+
         self.received_maps += 1
+
+        print(f"{self.NAME} Map received from the explorer")
         self.map.update(explorer_map)
         self.victims.update(victims)
 
         if self.received_maps == self.nb_of_explorers:
-            print(f"{self.NAME}: All maps received from explorers.")
+            print(f"{self.NAME} all maps received from the explorers")
+            #self.map.draw()
+            #print(f"{self.NAME} found victims by all explorers:\n{self.victims}")
+
+            #@TODO predict the severity and the class of victims' using a classifier
             self.predict_severity_and_class()
 
-            # Cluster victims using K-Means
-            all_clusters = self.cluster_victims(n_clusters=4)
+            #@TODO cluster the victims possibly using the severity and other criteria
+            # Here, there 4 clusters
+            clusters_of_vic = self.cluster_victims()
 
-            # Assign clusters to rescuers
-            for i, rescuer in enumerate(self.rescuers):
-                if i < len(all_clusters):
-                    rescuer.clusters = [all_clusters[i]]
-                else:
-                    rescuer.clusters = []
+            for i, cluster in enumerate(clusters_of_vic):
+                self.save_cluster_csv(cluster, i+1)    # file names start at 1
+  
+            # Instantiate the other rescuers
+            rescuers = [None] * 4
+            rescuers[0] = self                    # the master rescuer is the index 0 agent
 
-            # Perform planning for each rescuer
-            for rescuer in self.rescuers:
-                rescuer.sequences = rescuer.clusters
-                rescuer.sequencing()
-                rescuer.planner()
-                rescuer.set_state(VS.ACTIVE)
+            # Assign the cluster the master agent is in charge of 
+            self.clusters = [clusters_of_vic[0]]  # the first one
+
+            # Instantiate the other rescuers and assign the clusters to them
+            for i in range(1, 4):    
+                #print(f"{self.NAME} instantianting rescuer {i+1}, {self.get_env()}")
+                filename = f"rescuer_{i+1:1d}_config.txt"
+                config_file = os.path.join(self.config_folder, filename)
+                # each rescuer receives one cluster of victims
+                rescuers[i] = Rescuer(self.get_env(), config_file, 4, [clusters_of_vic[i]]) 
+                rescuers[i].map = self.map     # each rescuer have the map
+
+            
+            # Calculate the sequence of rescue for each agent
+            # In this case, each agent has just one cluster and one sequence
+            self.sequences = self.clusters         
+
+            # For each rescuer, we calculate the rescue sequence 
+            for i, rescuer in enumerate(rescuers):
+                rescuer.sequencing()         # the sequencing will reorder the cluster
+                
+                for j, sequence in enumerate(rescuer.sequences):
+                    if j == 0:
+                        self.save_sequence_csv(sequence, i+1)              # primeira sequencia do 1o. cluster 1: seq1 
+                    else:
+                        self.save_sequence_csv(sequence, (i+1)+ j*10)      # demais sequencias do 1o. cluster: seq11, seq12, seq13, ...
+
+            
+                rescuer.planner()            # make the plan for the trajectory
+                rescuer.set_state(VS.ACTIVE) # from now, the simulator calls the deliberation method 
+         
+        
 
     def predict_severity_and_class(self):
         """Assign random severity values and classes to victims."""
@@ -124,7 +187,7 @@ class Rescuer(AbstAgent):
         self.sequences = [genetic_algorithm(cluster) for cluster in self.clusters]
 
     def planner(self):
-        """Calculate paths between victims using A*."""
+        """Calculate paths between victims using A* while respecting TLIM."""
         def heuristic(a, b):
             return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
@@ -153,22 +216,42 @@ class Rescuer(AbstAgent):
             print(f"{self.NAME}: No sequences available for planning.")
             return
 
+        total_time = 0
         sequence = self.sequences[0]
         start = (0, 0)
         for vic_id in sequence:
             goal = sequence[vic_id][0]
-            plan = a_star(start, goal)
-            self.plan += plan
+            path = a_star(start, goal)
+            travel_time = len(path) * self.COST_LINE
+            first_aid_time = self.COST_FIRST_AID
+            total_time += travel_time + first_aid_time
+
+            if total_time > self.TLIM:
+                print(f"{self.NAME}: Time limit exceeded during planning. Stopping at victim {vic_id}.")
+                break
+
+            self.plan += path
             start = goal
 
         # Plan return to base
-        plan = a_star(start, (0, 0))
-        self.plan += plan
+        return_path = a_star(start, (0, 0))
+        if total_time + len(return_path) * self.COST_LINE <= self.TLIM:
+            self.plan += return_path
+        else:
+            print(f"{self.NAME}: Not enough time to return to base. Plan ends at {start}.")
+
 
     def deliberate(self) -> bool:
-        """Execute the next action in the plan."""
+        """Execute the next action in the plan, respecting TLIM."""
         if not self.plan:
             print(f"{self.NAME}: Finished plan.")
+            return False
+
+        remaining_time = self.get_rtime()
+        next_step_cost = self.COST_LINE if (self.plan[0][0] == 0 or self.plan[0][1] == 0) else self.COST_DIAG
+
+        if remaining_time < next_step_cost:
+            print(f"{self.NAME}: Not enough time to execute next step. Stopping.")
             return False
 
         dx, dy = self.plan.pop(0)
@@ -178,8 +261,9 @@ class Rescuer(AbstAgent):
             self.y += dy
             if self.map.in_map((self.x, self.y)):
                 vic_id = self.map.get_vic_id((self.x, self.y))
-                if vic_id != VS.NO_VICTIM:
+                if vic_id != VS.NO_VICTIM and remaining_time >= self.COST_FIRST_AID:
                     self.first_aid()
         else:
             print(f"{self.NAME}: Walk failed at ({self.x}, {self.y}).")
         return True
+
