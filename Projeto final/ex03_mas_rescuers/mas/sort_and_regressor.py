@@ -108,5 +108,6 @@ print("\nPerceptron Classifier Confusion Matrix and Report:")
 ConfusionMatrixDisplay.from_predictions(y_class_test, y_class_pred_perceptron)
 print(classification_report(y_class_test, y_class_pred_perceptron))
 
-plt.tight_layout()
-plt.show()
+# Plot regression ConfusionMatrix results
+# plt.tight_layout()
+# plt.show()

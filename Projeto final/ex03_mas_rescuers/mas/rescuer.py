@@ -20,6 +20,8 @@ from vs.abstract_agent import AbstAgent
 from vs.constants import VS
 from heapq import heappush, heappop
 from map import Map
+from sort_and_regressor import cart_regressor, cart_classifier, scaler
+import numpy as np
 
 
 class Rescuer(AbstAgent):
@@ -50,6 +52,23 @@ class Rescuer(AbstAgent):
                 x, y = values[0]      # x,y coordinates
                 vs = values[1]        # list of vital signals
                 writer.writerow([vic_id, x, y, vs[6], vs[7]])
+
+    def save_cluster_csv_trained(self, cluster, cluster_id):
+        filename = f"./clusters/cluster{cluster_id}.txt"
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            for vic_id, values in cluster.items():
+                x, y = values[0]      # x,y coordinates
+                vs = values[1]        # list of vital signs
+
+                # Ensure severity values exist
+                if len(vs) < 7:
+                    print(f"Warning: Victim {vic_id} still has incomplete severity data. Adding defaults.")
+                    while len(vs) < 7:
+                        vs.append(-1)  # Default value for missing severity
+
+                writer.writerow([vic_id, x, y, vs[5], vs[6]])  # Use updated indices
+
 
     def save_sequence_csv(self, sequence, sequence_id):
         filename = f"./clusters/seq{sequence_id}.txt"
@@ -82,14 +101,14 @@ class Rescuer(AbstAgent):
             #print(f"{self.NAME} found victims by all explorers:\n{self.victims}")
 
             #@TODO predict the severity and the class of victims' using a classifier
-            self.predict_severity_and_class()
+            self.predict_severity_and_class_trained()
 
             #@TODO cluster the victims possibly using the severity and other criteria
             # Here, there 4 clusters
             clusters_of_vic = self.cluster_victims()
 
             for i, cluster in enumerate(clusters_of_vic):
-                self.save_cluster_csv(cluster, i+1)    # file names start at 1
+                self.save_cluster_csv_trained(cluster, i+1)    # file names start at 1
   
             # Instantiate the other rescuers
             rescuers = [None] * 4
@@ -127,13 +146,47 @@ class Rescuer(AbstAgent):
                 rescuer.set_state(VS.ACTIVE) # from now, the simulator calls the deliberation method 
          
         
-
+    #Random prediction of severity and class
     def predict_severity_and_class(self):
         """Assign random severity values and classes to victims."""
         for vic_id, values in self.victims.items():
             severity_value = random.uniform(0.1, 100.0)
             severity_class = random.randint(1, 4)
             values[1].extend([severity_value, severity_class])
+
+    #Prediction of severity and class using trained models
+    def predict_severity_and_class_trained(self):
+        """Predict severity values and classes using trained ML models."""
+        for vic_id, values in self.victims.items():
+            vital_signs = values[1]  # List of victim's vital signs
+
+            # Ensure the list has at least 5 elements before prediction
+            if len(vital_signs) < 5:
+                print(f"Error: Victim {vic_id} has insufficient vital signs. Skipping prediction.")
+                continue
+
+            # Extract qPA, pulse, and respiratory_rate correctly
+            qPA = vital_signs[2]  
+            pulse = vital_signs[3]  
+            respiratory_rate = vital_signs[4]  
+
+            # Prepare feature vector
+            victim_features = np.array([[qPA, pulse, respiratory_rate]])  
+
+            # Normalize input features
+            victim_features_scaled = scaler.transform(victim_features)
+
+            # Predict severity value and class
+            severity_value = cart_regressor.best_estimator_.predict(victim_features_scaled)[0]
+            severity_class = cart_classifier.best_estimator_.predict(victim_features_scaled)[0]
+
+            # Ensure severity values are assigned (overwrite if already there)
+            if len(vital_signs) >= 7:
+                vital_signs[5] = severity_value  # Overwrite previous values
+                vital_signs[6] = severity_class
+            else:
+                vital_signs.extend([severity_value, severity_class])
+
 
     def cluster_victims(self, n_clusters=4):
         """Cluster victims using K-Means."""
