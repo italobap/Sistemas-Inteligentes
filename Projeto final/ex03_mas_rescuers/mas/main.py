@@ -12,7 +12,7 @@ def main(data_folder_name, config_ag_folder_name):
     current_folder = os.path.abspath(os.getcwd())
     config_ag_folder = os.path.abspath(os.path.join(current_folder, config_ag_folder_name))
     data_folder = os.path.abspath(os.path.join(current_folder, data_folder_name))
-    
+        
     # Instantiate the environment
     env = Env(data_folder)
     

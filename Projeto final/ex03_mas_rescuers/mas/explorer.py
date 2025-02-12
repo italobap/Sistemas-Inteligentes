@@ -228,6 +228,7 @@ class Explorer(AbstAgent):
         
         # keeps exploring while there is enough time
         if self.walk_time < (self.get_rtime() - time_tolerance):
+        #if 500 < (self.get_rtime() - time_tolerance):
             self.explore()
             return True
         else:
