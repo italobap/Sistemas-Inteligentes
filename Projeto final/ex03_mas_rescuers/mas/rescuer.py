@@ -20,7 +20,8 @@ from vs.abstract_agent import AbstAgent
 from vs.constants import VS
 from heapq import heappush, heappop
 from map import Map
-from sort_and_regressor import cart_regressor, cart_classifier, scaler
+from classifier_and_regressor import cart_regressor, cart_classifier, scaler
+from bfs import BFS
 import numpy as np
 
 
@@ -101,14 +102,14 @@ class Rescuer(AbstAgent):
             #print(f"{self.NAME} found victims by all explorers:\n{self.victims}")
 
             #@TODO predict the severity and the class of victims' using a classifier
-            self.predict_severity_and_class_trained()
+            self.predict_severity_and_class()
 
             #@TODO cluster the victims possibly using the severity and other criteria
             # Here, there 4 clusters
             clusters_of_vic = self.cluster_victims()
 
             for i, cluster in enumerate(clusters_of_vic):
-                self.save_cluster_csv_trained(cluster, i+1)    # file names start at 1
+                self.save_cluster_csv(cluster, i+1)    # file names start at 1
   
             # Instantiate the other rescuers
             rescuers = [None] * 4
@@ -217,9 +218,11 @@ class Rescuer(AbstAgent):
                 start = position
             return total_distance - severity_score  # Lower is better
 
-        def mutate(sequence):
-            idx1, idx2 = random.sample(range(len(sequence)), 2)
-            sequence[idx1], sequence[idx2] = sequence[idx2], sequence[idx1]
+        def mutate(sequence, mutation_rate=0.1):  # Define a taxa de mutação
+            """Swap two random victims in the sequence with a given probability."""
+            if random.random() < mutation_rate:  # Apenas realiza a mutação com probabilidade definida
+                idx1, idx2 = random.sample(range(len(sequence)), 2)
+                sequence[idx1], sequence[idx2] = sequence[idx2], sequence[idx1]
 
         def crossover(seq1, seq2):
             mid = len(seq1) // 2
@@ -236,8 +239,65 @@ class Rescuer(AbstAgent):
                     next_population.append(child)
                 population = next_population
             return dict(population[0])
+        
+        # def genetic_algorithm_without_elitism(victims, n_generations=100, population_size=10):
+        #     population = [list(victims.items()) for _ in range(population_size)]
+
+        #     for _ in range(n_generations):
+        #         # Ordena população pelo fitness (somente para análise, não usaremos elitismo)
+        #         population.sort(key=lambda seq: fitness(dict(seq)))
+
+        #         next_population = []
+        #         for _ in range(population_size // 2):
+        #             # Seleciona dois indivíduos **aleatórios** da população
+        #             parent1, parent2 = random.sample(population, 2)
+        #             child = crossover(parent1, parent2)
+        #             mutate(child)
+        #             next_population.append(child)
+
+        #         # Gera outra metade da população nova aleatoriamente (sem elitismo)
+        #         while len(next_population) < population_size:
+        #             random_individual = random.sample(victims.items(), len(victims))
+        #             next_population.append(random_individual)
+
+        #         population = next_population  # A nova geração substitui a anterior
+
+        #     return dict(population[0])  # Retorna a melhor solução encontrada
+
 
         self.sequences = [genetic_algorithm(cluster) for cluster in self.clusters]
+
+    def planner_bfs(self):
+        """ A method that calculates the path between victims: walk actions in a OFF-LINE MANNER (the agent plans, stores the plan, and
+            after it executes. Eeach element of the plan is a pair dx, dy that defines the increments for the the x-axis and  y-axis."""
+
+
+        # let's instantiate the breadth-first search
+        bfs = BFS(self.map, self.COST_LINE, self.COST_DIAG)
+
+        # for each victim of the first sequence of rescue for this agent, we're going go calculate a path
+        # starting at the base - always at (0,0) in relative coords
+        
+        if not self.sequences:   # no sequence assigned to the agent, nothing to do
+            return
+
+        # we consider only the first sequence (the simpler case)
+        # The victims are sorted by x followed by y positions: [vic_id]: ((x,y), [<vs>]
+
+        sequence = self.sequences[0]
+        start = (0,0) # always from starting at the base
+        for vic_id in sequence:
+            goal = sequence[vic_id][0]
+            plan, time = bfs.search(start, goal, self.plan_rtime)
+            self.plan = self.plan + plan
+            self.plan_rtime = self.plan_rtime - time
+            start = goal
+
+        # Plan to come back to the base
+        goal = (0,0)
+        plan, time = bfs.search(start, goal, self.plan_rtime)
+        self.plan = self.plan + plan
+        self.plan_rtime = self.plan_rtime - time
 
     def planner(self):
         """Calculate paths between victims using A* while respecting TLIM."""

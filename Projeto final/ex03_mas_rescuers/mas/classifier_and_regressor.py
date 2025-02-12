@@ -1,20 +1,23 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import classification_report, confusion_matrix, mean_squared_error, ConfusionMatrixDisplay, precision_recall_fscore_support, accuracy_score
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.preprocessing import StandardScaler
 import warnings
+import os
 
 # Ignore warnings for cleaner output
 warnings.filterwarnings("ignore")
 
-# Load datasets
-df_train = pd.read_csv(r"C:\Users\italo\OneDrive\Documentos\GitHub\Sistemas-Inteligentes\Projeto final\ex03_mas_rescuers\mas\env_vital_signals_4000v.txt", header=None)
-df_test = pd.read_csv(r"C:\Users\italo\OneDrive\Documentos\GitHub\Sistemas-Inteligentes\Projeto final\ex03_mas_rescuers\mas\env_vital_signals_800v.txt", header=None)
+# Define the base directory relative to the script's location
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "datasets"))
+
+# Load datasets with updated paths
+df_train = pd.read_csv(os.path.join(base_dir, "data_4000v", "env_vital_signals.txt"), header=None)
+df_test = pd.read_csv(os.path.join(base_dir, "data_800v", "env_vital_signals.txt"), header=None)
 
 # Define column names
 columns = ["Id", "pSist", "pDiast", "qPA", "pulse", "respiratory_rate", "severity", "severity_class"]
