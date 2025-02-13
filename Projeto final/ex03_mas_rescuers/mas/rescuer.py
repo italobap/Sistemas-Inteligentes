@@ -102,14 +102,14 @@ class Rescuer(AbstAgent):
             #print(f"{self.NAME} found victims by all explorers:\n{self.victims}")
 
             #@TODO predict the severity and the class of victims' using a classifier
-            self.predict_severity_and_class()
+            self.predict_severity_and_class_trained()
 
             #@TODO cluster the victims possibly using the severity and other criteria
             # Here, there 4 clusters
             clusters_of_vic = self.cluster_victims()
 
             for i, cluster in enumerate(clusters_of_vic):
-                self.save_cluster_csv(cluster, i+1)    # file names start at 1
+                self.save_cluster_csv_trained(cluster, i+1)    # file names start at 1
   
             # Instantiate the other rescuers
             rescuers = [None] * 4

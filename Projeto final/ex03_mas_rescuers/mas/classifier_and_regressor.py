@@ -74,21 +74,21 @@ metrics_cart = precision_recall_fscore_support(y_class_test, y_class_pred_cart, 
 metrics_perceptron = precision_recall_fscore_support(y_class_test, y_class_pred_perceptron, average='weighted')
 
 # Extract top 3 configurations for each model
-cart_class_top3 = pd.DataFrame(cart_classifier.cv_results_).nlargest(3, "mean_test_score")
-perceptron_class_top3 = pd.DataFrame(perceptron_classifier.cv_results_).nlargest(3, "mean_test_score")
-cart_reg_top3 = pd.DataFrame(cart_regressor.cv_results_).nsmallest(3, "mean_test_score")
-perceptron_reg_top3 = pd.DataFrame(perceptron_regressor.cv_results_).nsmallest(3, "mean_test_score")
+# cart_class_top3 = pd.DataFrame(cart_classifier.cv_results_).nlargest(3, "mean_test_score")
+# perceptron_class_top3 = pd.DataFrame(perceptron_classifier.cv_results_).nlargest(3, "mean_test_score")
+# cart_reg_top3 = pd.DataFrame(cart_regressor.cv_results_).nsmallest(3, "mean_test_score")
+# perceptron_reg_top3 = pd.DataFrame(perceptron_regressor.cv_results_).nsmallest(3, "mean_test_score")
 
-# Display results
-pd.set_option("display.max_colwidth", None)
-print("Top 3 configurations for CART Classifier:")
-print(cart_class_top3[["params", "mean_test_score"]])
-print("\nTop 3 configurations for Perceptron Classifier:")
-print(perceptron_class_top3[["params", "mean_test_score"]])
-print("\nTop 3 configurations for CART Regressor:")
-print(cart_reg_top3[["params", "mean_test_score"]])
-print("\nTop 3 configurations for Perceptron Regressor:")
-print(perceptron_reg_top3[["params", "mean_test_score"]])
+# # Display results
+# pd.set_option("display.max_colwidth", None)
+# print("Top 3 configurations for CART Classifier:")
+# print(cart_class_top3[["params", "mean_test_score"]])
+# print("\nTop 3 configurations for Perceptron Classifier:")
+# print(perceptron_class_top3[["params", "mean_test_score"]])
+# print("\nTop 3 configurations for CART Regressor:")
+# print(cart_reg_top3[["params", "mean_test_score"]])
+# print("\nTop 3 configurations for Perceptron Regressor:")
+# print(perceptron_reg_top3[["params", "mean_test_score"]])
 
 # Compute and print classification results
 results_df = pd.DataFrame([
